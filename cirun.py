@@ -34,20 +34,14 @@ def run_ci():
     print("  -> Репозиторий готов к тестам.")
 
     print("\n[Шаг 4] Прогон тестов: pytest tests/ -v...")
-    rep_dir = os.path.join(os.path.dirname(__file__), "reports")
-    os.makedirs(rep_dir, exist_ok=True)
-    xml_path = os.path.join(rep_dir, "junit-report.xml")
-
     cur_dir = os.path.dirname(__file__)
-    cmd = [sys.executable, "-m", "pytest", "tests", "-v", f"--junitxml={xml_path}"]
+    cmd = [sys.executable, "-m", "pytest", "tests", "-v"]
     p = subprocess.run(cmd, cwd=cur_dir, capture_output=True, text=True)
     print(p.stdout)
     if p.stderr:
         print(p.stderr)
 
     if p.returncode == 0:
-        print("[Шаг 5] Сохранение отчета...")
-        print(f"  -> Отчет сохранен: {xml_path}")
         print("\n" + "=" * 60)
         print("СТАТУС CI: SUCCESS (Все тесты успешно пройдены!)")
         print("=" * 60)
